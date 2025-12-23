@@ -6,11 +6,11 @@ Structicon is a zero-dependency, offline-first library that generates unique, mo
 
 <div align="center">
 
-| | | |
-| :---: | :---: | :---: |
-| <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/1.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/2.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/3.svg" width="100"> |
-| <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/4.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/5.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/6.svg" width="100"> |
-| <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/7.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/8.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/9.svg" width="100"> |
+| | | | |
+| :---: | :---: | :---: | :---: |
+| <img src="./assets/1.svg" width="100"> | <img src="./assets/2.svg" width="100"> | <img src="./assets/3.svg" width="100"> | <img src="./assets/4.svg" width="100"> |
+| <img src="./assets/5.svg" width="100"> | <img src="./assets/6.svg" width="100"> | <img src="./assets/7.svg" width="100"> | <img src="./assets/8.svg" width="100"> |
+| <img src="./assets/9.svg" width="100"> | <img src="./assets/10.svg" width="100"> | <img src="./assets/11.svg" width="100"> | <img src="./assets/12.svg" width="100"> |
 
 </div>
 

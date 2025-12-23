@@ -20,152 +20,153 @@ export interface Graph {
 export type StructureType = 'chain' | 'ring' | 'branch' | 'ladder' | 'fused' | 'spiro';
 
 export function generateGraph(prng: () => number): Graph {
-    const nodeCount = Math.floor(prng() * 4) + 3; // 3 to 6 nodes
+    // Variety: 3 to 8 nodes
+    const nodeCount = Math.floor(prng() * 6) + 3;
     const typeValue = prng();
     let type: StructureType;
 
-    if (typeValue < 0.16) type = 'chain';
-    else if (typeValue < 0.32) type = 'ring';
-    else if (typeValue < 0.48) type = 'branch';
-    else if (typeValue < 0.64) type = 'ladder';
-    else if (typeValue < 0.82) type = 'fused';
+    if (typeValue < 0.15) type = 'chain';
+    else if (typeValue < 0.30) type = 'ring';
+    else if (typeValue < 0.45) type = 'branch';
+    else if (typeValue < 0.60) type = 'ladder';
+    else if (typeValue < 0.80) type = 'fused';
     else type = 'spiro';
 
     const nodes: Node[] = [];
     const bonds: Bond[] = [];
 
-    // Helper to add nodes with random sizing (Atomic Sizing)
     const addNode = (id: number, x: number, y: number) => {
-        const radius = 3 + prng() * 4; // 3 to 7
+        const radius = 3 + prng() * 4;
         nodes.push({ id, x, y, radius });
     };
 
-    // Helper to add bonds
     const addBond = (source: number, target: number) => {
         bonds.push({ source, target });
     };
 
-    // Generate coordinates based on type
     const centerX = 50;
     const centerY = 50;
-    const radius = 30 + prng() * 10; // Base size
+    const baseRadius = 25 + prng() * 10;
 
     if (type === 'chain') {
-        const angle = prng() * Math.PI * 2;
-        const spacing = (radius * 2) / (nodeCount - 1);
-        const startX = centerX - Math.cos(angle) * radius;
-        const startY = centerY - Math.sin(angle) * radius;
+        let currentX = centerX - baseRadius;
+        let currentY = centerY;
+        let currentAngle = (prng() - 0.5) * Math.PI;
 
-        for (let i = 0; i < nodeCount; i++) {
-            addNode(i,
-                startX + Math.cos(angle) * (i * spacing) + (prng() - 0.5) * 5,
-                startY + Math.sin(angle) * (i * spacing) + (prng() - 0.5) * 5
-            );
-            if (i > 0) addBond(i - 1, i);
+        addNode(0, currentX, currentY);
+        for (let i = 1; i < nodeCount; i++) {
+            const stepLen = 15 + prng() * 10;
+            currentAngle += (prng() - 0.5) * 1.8;
+            currentX += Math.cos(currentAngle) * stepLen;
+            currentY += Math.sin(currentAngle) * stepLen;
+            addNode(i, currentX, currentY);
+            addBond(i - 1, i);
         }
     } else if (type === 'ring') {
+        const startAngle = prng() * Math.PI * 2;
+        const ellipticity = 0.7 + prng() * 0.6;
         for (let i = 0; i < nodeCount; i++) {
-            const angle = (i / nodeCount) * Math.PI * 2 + prng() * 0.5;
-            const r = radius * (0.8 + prng() * 0.4);
-            addNode(i, centerX + Math.cos(angle) * r, centerY + Math.sin(angle) * r);
+            const angle = startAngle + (i / nodeCount) * Math.PI * 2;
+            addNode(i,
+                centerX + Math.cos(angle) * baseRadius * ellipticity,
+                centerY + Math.sin(angle) * baseRadius
+            );
             addBond(i, (i + 1) % nodeCount);
         }
     } else if (type === 'branch') {
-        addNode(0, centerX + (prng() - 0.5) * 10, centerY + (prng() - 0.5) * 10);
+        addNode(0, centerX, centerY);
+        const startAngle = prng() * Math.PI * 2;
         for (let i = 1; i < nodeCount; i++) {
-            const angle = ((i - 1) / (nodeCount - 1)) * Math.PI * 2 + (prng() - 0.5) * 0.5;
-            const r = radius * (0.7 + prng() * 0.5);
+            const angle = startAngle + ((i - 1) / (nodeCount - 1)) * Math.PI * 2 + (prng() - 0.5);
+            const r = baseRadius * (0.8 + prng() * 0.4);
             addNode(i, centerX + Math.cos(angle) * r, centerY + Math.sin(angle) * r);
             addBond(0, i);
         }
     } else if (type === 'ladder') {
-        const angle = prng() * Math.PI * 2;
+        const mainAngle = prng() * Math.PI * 2;
         const sideCount = Math.floor(nodeCount / 2);
-        const spacing = (radius * 2) / (sideCount > 1 ? sideCount - 1 : 1);
-        const width = 15 + prng() * 10;
-        const startX = centerX - Math.cos(angle) * radius;
-        const startY = centerY - Math.sin(angle) * radius;
-        const perpX = -Math.sin(angle) * width;
-        const perpY = Math.cos(angle) * width;
+        const spacing = (baseRadius * 2) / Math.max(1, sideCount - 1);
+        const width = 12 + prng() * 10;
+
+        const perpAngle = mainAngle + Math.PI / 2;
+        const startX = centerX - Math.cos(mainAngle) * baseRadius;
+        const startY = centerY - Math.sin(mainAngle) * baseRadius;
 
         for (let i = 0; i < sideCount; i++) {
-            addNode(i * 2,
-                startX + Math.cos(angle) * (i * spacing) + perpX / 2 + (prng() - 0.5) * 4,
-                startY + Math.sin(angle) * (i * spacing) + perpY / 2 + (prng() - 0.5) * 4
-            );
-            addNode(i * 2 + 1,
-                startX + Math.cos(angle) * (i * spacing) - perpX / 2 + (prng() - 0.5) * 4,
-                startY + Math.sin(angle) * (i * spacing) - perpY / 2 + (prng() - 0.5) * 4
-            );
+            const lx = startX + Math.cos(mainAngle) * (i * spacing);
+            const ly = startY + Math.sin(mainAngle) * (i * spacing);
+
+            addNode(i * 2, lx + Math.cos(perpAngle) * (width / 2), ly + Math.sin(perpAngle) * (width / 2));
+            addNode(i * 2 + 1, lx - Math.cos(perpAngle) * (width / 2), ly - Math.sin(perpAngle) * (width / 2));
             addBond(i * 2, i * 2 + 1);
             if (i > 0) {
                 addBond((i - 1) * 2, i * 2);
                 addBond((i - 1) * 2 + 1, i * 2 + 1);
             }
         }
-    } else if (type === 'fused') {
-        // Fused Rings: Shared Bond
-        addNode(0, centerX - 12, centerY - 15);
-        addNode(1, centerX - 12, centerY + 15);
-        addBond(0, 1);
+    } else if (type === 'fused' || type === 'spiro') {
+        const ring1Size = Math.floor(prng() * 3) + 3;
+        const ring2Size = Math.floor(prng() * 3) + 3;
 
-        const r1 = 20;
-        addNode(2, centerX - 35, centerY);
-        addBond(0, 2);
-        addBond(1, 2);
-
-        if (nodeCount >= 4) {
-            addNode(3, centerX + 10, centerY - 15);
-            addBond(0, 3);
-            if (nodeCount >= 5) {
-                addNode(4, centerX + 10, centerY + 15);
-                addBond(1, 4);
-                addBond(3, 4);
-            } else {
-                addBond(1, 3);
-            }
+        const r1StartAngle = prng() * Math.PI * 2;
+        const r1Radius = 18 + prng() * 8;
+        for (let i = 0; i < ring1Size; i++) {
+            const a = r1StartAngle + (i / ring1Size) * Math.PI * 2;
+            addNode(i, centerX - 15 + Math.cos(a) * r1Radius, centerY + Math.sin(a) * r1Radius);
+            addBond(i, (i + 1) % ring1Size);
         }
-    } else if (type === 'spiro') {
-        // Spiro Rings: Shared Node
-        const shared = 0;
-        addNode(shared, centerX, centerY);
 
-        // Ring 1
-        addNode(1, centerX - 25, centerY - 15);
-        addNode(2, centerX - 25, centerY + 15);
-        addBond(shared, 1);
-        addBond(1, 2);
-        addBond(2, shared);
+        const offsetAngle = prng() * Math.PI * 2;
+        const r2Radius = 16 + prng() * 8;
 
-        // Ring 2
-        if (nodeCount >= 4) {
-            addNode(3, centerX + 25, centerY - 15);
-            if (nodeCount >= 5) {
-                addNode(4, centerX + 35, centerY);
-                addNode(5, centerX + 25, centerY + 15);
-                addBond(shared, 3);
-                addBond(3, 4);
-                addBond(4, 5);
-                addBond(5, shared);
-            } else {
-                addNode(4, centerX + 25, centerY + 15);
-                addBond(shared, 3);
-                addBond(3, 4);
-                addBond(4, shared);
+        if (type === 'spiro') {
+            const shared = nodes[0]!;
+            const r2Center = {
+                x: shared.x + Math.cos(offsetAngle) * (r2Radius * 1.1),
+                y: shared.y + Math.sin(offsetAngle) * (r2Radius * 1.1)
+            };
+            for (let i = 1; i < ring2Size; i++) {
+                const a = offsetAngle + Math.PI + (i / ring2Size) * Math.PI * 2;
+                addNode(ring1Size + i - 1,
+                    r2Center.x + Math.cos(a) * r2Radius,
+                    r2Center.y + Math.sin(a) * r2Radius
+                );
+                if (i === 1) addBond(0, ring1Size);
+                else addBond(ring1Size + i - 2, ring1Size + i - 1);
+                if (i === ring2Size - 1) addBond(ring1Size + i - 1, 0);
+            }
+        } else {
+            const n0 = nodes[0]!;
+            const n1 = nodes[1]!;
+            const midX = (n0.x + n1.x) / 2;
+            const midY = (n0.y + n1.y) / 2;
+            const dx = n1.x - n0.x;
+            const dy = n1.y - n0.y;
+            const edgeAngle = Math.atan2(dy, dx);
+            const perpAngle = edgeAngle + Math.PI / 2;
+
+            const r2Center = {
+                x: midX + Math.cos(perpAngle) * (r2Radius * 1.3),
+                y: midY + Math.sin(perpAngle) * (r2Radius * 1.3)
+            };
+
+            for (let i = 2; i < ring2Size; i++) {
+                const a = perpAngle + Math.PI + (i / ring2Size) * Math.PI * 2;
+                const nid = ring1Size + i - 2;
+                addNode(nid, r2Center.x + Math.cos(a) * r2Radius, r2Center.y + Math.sin(a) * r2Radius);
+                if (i === 2) addBond(1, nid);
+                else addBond(nid - 1, nid);
+                if (i === ring2Size - 1) addBond(nid, 0);
             }
         }
     }
 
-    return normalizeGraph({ nodes, bonds });
+    return normalizeGraph({ nodes, bonds }, prng);
 }
 
-/**
- * Normalizes the graph by centering it at (50, 50) and scaling it if too small.
- */
-function normalizeGraph(graph: Graph): Graph {
+function normalizeGraph(graph: Graph, prng: () => number): Graph {
     if (graph.nodes.length === 0) return graph;
 
-    // 1. Calculate bounding box
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
     for (const node of graph.nodes) {
         minX = Math.min(minX, node.x);
@@ -177,29 +178,86 @@ function normalizeGraph(graph: Graph): Graph {
     const currentCenterX = (minX + maxX) / 2;
     const currentCenterY = (minY + maxY) / 2;
 
-    // 2. Center the graph at (50, 50)
     for (const node of graph.nodes) {
         node.x = node.x - currentCenterX + 50;
         node.y = node.y - currentCenterY + 50;
     }
 
-    // 3. Scale up if it's too small to ensure visibility
     const width = maxX - minX;
     const height = maxY - minY;
     const maxDim = Math.max(width, height);
 
-    // Target size for the structure's longest dimension (~70% of the space)
-    const targetSize = 60;
-    if (maxDim > 0 && maxDim < targetSize) {
-        // We only scale UP to avoid tiny icons. We don't scale DOWN 
-        // because the generators already respect the 100x100 bounds roughly.
+    // Slight random margin variation
+    const targetSize = 55 + prng() * 15;
+
+    if (maxDim > 0) {
         const scale = targetSize / maxDim;
         for (const node of graph.nodes) {
             node.x = 50 + (node.x - 50) * scale;
             node.y = 50 + (node.y - 50) * scale;
-            // Also scale the radius slightly for visual balance, but cap it
-            node.radius = Math.min(8, node.radius * Math.sqrt(scale));
+            node.radius = Math.min(8, node.radius * Math.pow(scale, 0.4));
         }
+    }
+
+    return relaxGraph(graph);
+}
+
+/**
+ * Stronger force-directed relaxation to prevent overlaps.
+ */
+function relaxGraph(graph: Graph): Graph {
+    const iterations = 60;
+    const minPadding = 10; // Clear visible gap
+
+    for (let iter = 0; iter < iterations; iter++) {
+        let moved = false;
+        for (let i = 0; i < graph.nodes.length; i++) {
+            for (let j = i + 1; j < graph.nodes.length; j++) {
+                const n1 = graph.nodes[i]!;
+                const n2 = graph.nodes[j]!;
+
+                let dx = n2.x - n1.x;
+                let dy = n2.y - n1.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+
+                const minDist = n1.radius + n2.radius + minPadding;
+
+                if (dist < minDist) {
+                    // Break perfect overlaps
+                    if (dist < 0.01) {
+                        dx = Math.random() - 0.5;
+                        dy = Math.random() - 0.5;
+                        dist = Math.sqrt(dx * dx + dy * dy);
+                    }
+
+                    const force = (minDist - dist) / dist * 0.4;
+                    const ox = dx * force;
+                    const oy = dy * force;
+
+                    n1.x -= ox;
+                    n1.y -= oy;
+                    n2.x += ox;
+                    n2.y += oy;
+                    moved = true;
+                }
+            }
+        }
+        if (!moved) break;
+    }
+
+    // Final alignment
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (const node of graph.nodes) {
+        minX = Math.min(minX, node.x);
+        maxX = Math.max(maxX, node.x);
+        minY = Math.min(minY, node.y);
+        maxY = Math.max(maxY, node.y);
+    }
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+    for (const node of graph.nodes) {
+        node.x = node.x - cx + 50;
+        node.y = node.y - cy + 50;
     }
 
     return graph;
