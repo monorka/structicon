@@ -1,5 +1,7 @@
 # Structicon 🧬
 
+**English** | [日本語](./README.ja.md)
+
 **Deterministic molecular-style identicons.**
 
 Structicon is a zero-dependency, offline-first library that generates unique, molecular-like identity icons from strings. Inspired by chemical structures, it produces abstract, premium-looking SVGs that are deterministic—the same input always produces the identical icon.
