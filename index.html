@@ -15,8 +15,19 @@
             --primary-glow: rgba(99, 102, 241, 0.4);
             --bg: #0f172a;
             --surface: rgba(30, 41, 59, 0.7);
+            --card-bg: rgba(255, 255, 255, 0.03);
             --text: #f8fafc;
             --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode {
+            --bg: #f8fafc;
+            --surface: rgba(241, 245, 249, 0.8);
+            --card-bg: rgba(0, 0, 0, 0.02);
+            --text: #0f172a;
+            --text-dim: #64748b;
+            --border: rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -29,8 +40,8 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             background-image:
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
             color: var(--text);
             min-height: 100vh;
             display: flex;
@@ -38,6 +49,7 @@
             align-items: center;
             padding: 2rem;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -45,7 +57,7 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 3rem;
+            gap: 2rem;
             animation: fadeIn 0.8s ease-out;
         }
 
@@ -63,7 +75,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         h1 {
@@ -86,47 +98,87 @@
         .main-showcase {
             background: var(--surface);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
             border-radius: 24px;
-            padding: 3rem;
+            padding: 2.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            gap: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .input-group {
-            width: 100%;
-            max-width: 500px;
-            position: relative;
+            flex: 2;
+            min-width: 300px;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
-            padding: 1.2rem 1.5rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            color: white;
-            font-size: 1.25rem;
+            padding: 1rem 1.2rem;
+            background: rgba(15, 23, 42, 0.1);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1.1rem;
             font-family: inherit;
             transition: all 0.3s ease;
             outline: none;
-            text-align: center;
         }
 
-        input:focus {
+        input:focus,
+        select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-            transform: scale(1.02);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .theme-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .mode-toggle-btn {
+            background: var(--primary);
+            color: white;
+            border: 2px solid var(--border);
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-mode .mode-toggle-btn {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .mode-toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
         .main-preview {
             width: 240px;
             height: 240px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 50%;
+            background: var(--card-bg);
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -137,7 +189,6 @@
         .main-preview svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
         }
 
         .grid-header {
@@ -158,7 +209,7 @@
 
         .variation-card {
             background: var(--surface);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 1.5rem;
             display: flex;
@@ -171,7 +222,7 @@
 
         .variation-card:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--card-bg);
             border-color: var(--primary);
         }
 
@@ -184,10 +235,6 @@
             font-size: 0.75rem;
             color: var(--text-dim);
             font-family: monospace;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
             text-align: center;
         }
 
@@ -201,13 +248,11 @@
             font-weight: bold;
             display: none;
             z-index: 1000;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 
 <body>
-
     <div id="loading-warning">
         ⚠️ This demo requires a local server. Please run "npm run demo".
     </div>
@@ -215,12 +260,23 @@
     <div class="container">
         <header>
             <h1>STRUCTICON</h1>
-            <p class="subtitle">Deterministic molecular-style identicons for everyone.</p>
+            <p class="subtitle">Deterministic molecular identicons for everyone.</p>
         </header>
 
         <section class="main-showcase">
-            <div class="input-group">
-                <input type="text" id="main-input" placeholder="Type to generate..." value="monorka">
+            <div class="controls-row">
+                <div class="input-group">
+                    <input type="text" id="main-input" placeholder="Type to generate..." value="monorka">
+                </div>
+                <div class="theme-group">
+                    <select id="theme-select">
+                        <option value="light">Theme: Light</option>
+                        <option value="dark">Theme: Dark</option>
+                        <option value="neon">Theme: Neon</option>
+                        <option value="organic">Theme: Organic</option>
+                    </select>
+                </div>
+                <button id="mode-toggle" class="mode-toggle-btn" style="flex: 0 0 auto; min-width: 60px;">🌙</button>
             </div>
 
             <div id="main-preview" class="main-preview">
@@ -240,44 +296,43 @@
         import { generateIdenticon } from './dist/index.js';
 
         const mainInput = document.getElementById('main-input');
+        const themeSelect = document.getElementById('theme-select');
+        const modeToggle = document.getElementById('mode-toggle');
         const mainPreview = document.getElementById('main-preview');
         const variationsGrid = document.getElementById('variations-grid');
         const warning = document.getElementById('loading-warning');
 
-        // Check if served over HTTP
-        if (window.location.protocol === 'file:') {
-            warning.style.display = 'block';
-        }
+        if (window.location.protocol === 'file:') warning.style.display = 'block';
+
+        let isDarkMode = true;
+        modeToggle.onclick = () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('light-mode', !isDarkMode);
+            modeToggle.innerText = isDarkMode ? '🌙' : '☀️';
+        };
 
         function update() {
             const val = mainInput.value || ' ';
+            const theme = themeSelect.value;
 
             // Update main preview
-            const mainSvg = generateIdenticon(val, { size: 240, strokeWidth: 2.5 });
+            const mainSvg = generateIdenticon(val, { size: 240, strokeWidth: 2.5, theme });
             mainPreview.innerHTML = mainSvg;
 
             // Pop effect
             mainPreview.style.transform = 'scale(0.95)';
             setTimeout(() => mainPreview.style.transform = 'scale(1)', 50);
 
-            // Update grid with some variations based on the input
+            // Update grid
             variationsGrid.innerHTML = '';
-            const samples = [
-                val,
-                val + '_1',
-                val + '_2',
-                val + '_3',
-                val + '_4',
-                val + '_5',
-                val + '_abc',
-                val + '_xyz'
-            ];
+            const suffix = ['_1', '_ring', '_oxygen', '_carbon', '_gold', '_atom', '_core', '_node'];
+            const samples = [val, ...suffix.map(s => val + s)];
 
             samples.forEach(s => {
                 const card = document.createElement('div');
                 card.className = 'variation-card';
                 card.innerHTML = `
-                    ${generateIdenticon(s, { size: 80 })}
+                    ${generateIdenticon(s, { size: 80, theme })}
                     <div class="variation-label">${s}</div>
                 `;
                 card.onclick = () => {
@@ -289,6 +344,7 @@
         }
 
         mainInput.addEventListener('input', update);
+        themeSelect.addEventListener('change', update);
         update();
     </script>
 </body>

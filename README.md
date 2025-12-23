@@ -6,9 +6,8 @@ Structicon is a zero-dependency, offline-first library that generates unique, mo
 
 <div align="center">
 
-| | | | |
-| :---: | :---: | :---: | :---: |
 | <img src="./assets/1.svg" width="100"> | <img src="./assets/2.svg" width="100"> | <img src="./assets/3.svg" width="100"> | <img src="./assets/4.svg" width="100"> |
+| :---: | :---: | :---: | :---: |
 | <img src="./assets/5.svg" width="100"> | <img src="./assets/6.svg" width="100"> | <img src="./assets/7.svg" width="100"> | <img src="./assets/8.svg" width="100"> |
 | <img src="./assets/9.svg" width="100"> | <img src="./assets/10.svg" width="100"> | <img src="./assets/11.svg" width="100"> | <img src="./assets/12.svg" width="100"> |
 
@@ -52,9 +51,21 @@ const dataUrl = generateIdenticon('user-123', { format: 'dataurl' });
 import { Structicon } from '@monorka/structicon/react';
 
 function Profile() {
-  return <Structicon input="monorka" size={80} />;
+  // You can specify themes like 'dark', 'neon', or 'organic'
+  return <Structicon input="monorka" theme="neon" size={80} />;
 }
 ```
+
+## Themes
+
+Structicon comes with curated color palettes optimized for different environments:
+
+| Theme | Preview | Description |
+| :--- | :---: | :--- |
+| `light` | <img src="./assets/theme-light.svg" width="60"> | (Default) Clean and professional, optimized for light backgrounds. |
+| `dark` | <img src="./assets/theme-dark.svg" width="60"> | High-chroma, glowing colors optimized for dark backgrounds. |
+| `neon` | <img src="./assets/theme-neon.svg" width="60"> | Vibrant, cyber-punk inspired acid colors. |
+| `organic` | <img src="./assets/theme-organic.svg" width="60"> | Muted, earthy tones inspired by natural minerals. |
 
 ### CLI Tool
 
@@ -73,6 +84,7 @@ npx structicon "my-identity" my-icon.svg
   - `size` (number): SVG width/height (default: 64)
   - `strokeWidth` (number): Thickness of bonds (default: 2)
   - `color` (string): Custom CSS color (default: derived from hash)
+  - `theme` ('light' | 'dark' | 'neon' | 'organic'): Predefined color palette (default: 'light')
   - `format` ('svg' | 'dataurl'): Output format (default: 'svg')
 
 ## Development

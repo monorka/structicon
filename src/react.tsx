@@ -6,6 +6,7 @@ export interface StructiconProps {
     size?: number;
     strokeWidth?: number;
     color?: string;
+    theme?: 'light' | 'dark' | 'neon' | 'organic';
     className?: string;
     style?: React.CSSProperties;
 }
@@ -18,12 +19,14 @@ export const Structicon: React.FC<StructiconProps> = ({
     size = 64,
     strokeWidth,
     color,
+    theme,
     className,
     style
 }) => {
     const options: any = { size, format: 'svg' };
     if (strokeWidth !== undefined) options.strokeWidth = strokeWidth;
     if (color !== undefined) options.color = color;
+    if (theme !== undefined) options.theme = theme;
 
     const svg = generateIdenticon(input, options) as string;
 

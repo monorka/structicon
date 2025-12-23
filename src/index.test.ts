@@ -30,4 +30,21 @@ describe('Structicon', () => {
         expect(svg).toContain('<circle');
         expect(svg).toContain('<line');
     });
+
+    it('should generate different colors for different themes', () => {
+        const input = 'color-test';
+        const light = generateIdenticon(input, { theme: 'light' });
+        const dark = generateIdenticon(input, { theme: 'dark' });
+        const neon = generateIdenticon(input, { theme: 'neon' });
+        const organic = generateIdenticon(input, { theme: 'organic' });
+
+        expect(light).not.toBe(dark);
+        expect(dark).not.toBe(neon);
+        expect(neon).not.toBe(organic);
+    });
+
+    it('should respect manual color override even if theme is provided', () => {
+        const svg = generateIdenticon('test', { theme: 'dark', color: '#ff0000' });
+        expect(svg).toContain('stroke="#ff0000"');
+    });
 });
