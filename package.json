@@ -1,6 +1,6 @@
 {
   "name": "@monorka/structicon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Deterministic identicon system inspired by molecular structures.",
   "main": "./dist/index.js",

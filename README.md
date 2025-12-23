@@ -6,10 +6,10 @@ Structicon is a zero-dependency, offline-first library that generates unique, mo
 
 <div align="center">
 
-| <img src="./assets/1.svg" width="100"> | <img src="./assets/2.svg" width="100"> | <img src="./assets/3.svg" width="100"> | <img src="./assets/4.svg" width="100"> |
+| <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/1.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/2.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/3.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/4.svg" width="100"> |
 | :---: | :---: | :---: | :---: |
-| <img src="./assets/5.svg" width="100"> | <img src="./assets/6.svg" width="100"> | <img src="./assets/7.svg" width="100"> | <img src="./assets/8.svg" width="100"> |
-| <img src="./assets/9.svg" width="100"> | <img src="./assets/10.svg" width="100"> | <img src="./assets/11.svg" width="100"> | <img src="./assets/12.svg" width="100"> |
+| <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/5.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/6.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/7.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/8.svg" width="100"> |
+| <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/9.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/10.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/11.svg" width="100"> | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/12.svg" width="100"> |
 
 </div>
 
@@ -62,10 +62,10 @@ Structicon comes with curated color palettes optimized for different environment
 
 | Theme | Preview | Description |
 | :--- | :---: | :--- |
-| `light` | <img src="./assets/theme-light.svg" width="60"> | (Default) Clean and professional, optimized for light backgrounds. |
-| `dark` | <img src="./assets/theme-dark.svg" width="60"> | High-chroma, glowing colors optimized for dark backgrounds. |
-| `neon` | <img src="./assets/theme-neon.svg" width="60"> | Vibrant, cyber-punk inspired acid colors. |
-| `organic` | <img src="./assets/theme-organic.svg" width="60"> | Muted, earthy tones inspired by natural minerals. |
+| `light` | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/theme-light.svg" width="60"> | (Default) Clean and professional, optimized for light backgrounds. |
+| `dark` | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/theme-dark.svg" width="60"> | High-chroma, glowing colors optimized for dark backgrounds. |
+| `neon` | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/theme-neon.svg" width="60"> | Vibrant, cyber-punk inspired acid colors. |
+| `organic` | <img src="https://raw.githubusercontent.com/monorka/structicon/main/assets/theme-organic.svg" width="60"> | Muted, earthy tones inspired by natural minerals. |
 
 ### CLI Tool
 
