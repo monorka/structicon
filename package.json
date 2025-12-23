@@ -1,0 +1,48 @@
+{
+  "name": "@monorka/structicon",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Deterministic identicon system inspired by molecular structures.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "browser": "./dist/index.global.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "structicon": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/cli.ts src/react.tsx --format cjs,esm,iife --global-name Structicon --dts --clean",
+    "dev": "tsup src/index.ts src/cli.ts src/react.tsx --format cjs,esm,iife --global-name Structicon --watch --dts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "demo": "serve ."
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "identicon",
+    "svg",
+    "deterministic",
+    "avatar"
+  ],
+  "author": "monorka",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "25.0.3",
+    "@types/react": "19.2.7",
+    "react": "19.2.3",
+    "serve": "14.2.5",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "4.0.16"
+  }
+}
