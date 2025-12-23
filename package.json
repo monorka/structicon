@@ -1,6 +1,6 @@
 {
   "name": "@monorka/structicon",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "description": "Deterministic identicon system inspired by molecular structures.",
   "main": "./dist/index.js",
@@ -9,6 +9,18 @@
   "types": "./dist/index.d.ts",
   "bin": {
     "structicon": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react.js",
+      "require": "./dist/react.cjs",
+      "types": "./dist/react.d.ts"
+    }
   },
   "files": [
     "dist",
