@@ -4,6 +4,8 @@
 
 **Deterministic molecular-style identicons.**
 
+🔗 **[Try it live on GitHub Pages](https://monorka.github.io/structicon/)**
+
 Structicon is a zero-dependency, offline-first library that generates unique, molecular-like identity icons from strings. Inspired by chemical structures, it produces abstract, premium-looking SVGs that are deterministic—the same input always produces the identical icon.
 
 <div align="center">

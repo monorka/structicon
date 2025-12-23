@@ -174,6 +174,15 @@
             box-shadow: 0 0 15px var(--primary-glow);
         }
 
+        .preview-wrapper {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .main-preview {
             width: 240px;
             height: 240px;
@@ -184,6 +193,7 @@
             justify-content: center;
             padding: 20px;
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
         }
 
         .main-preview svg {
@@ -238,6 +248,157 @@
             text-align: center;
         }
 
+        .actions-row {
+            display: flex;
+            gap: 1rem;
+            width: 240px;
+            align-items: flex-start;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .action-btn {
+            flex: 1;
+        }
+
+        .action-btn {
+            padding: 0.5rem 0.875rem;
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        body.light-mode .action-btn {
+            color: var(--text-dim);
+            border-color: var(--border);
+        }
+
+        .action-btn:hover {
+            color: var(--text);
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .code-section {
+            width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .preview-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .actions-row {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .code-container {
+            background: rgba(15, 23, 42, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem;
+            max-height: 150px;
+            overflow-y: auto;
+            position: relative;
+            margin-top: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease, margin-top 0.3s ease;
+        }
+
+        .code-section:not(.collapsed) .code-container {
+            max-height: 150px;
+            padding: 0.6rem;
+            margin-top: 0.375rem;
+        }
+
+        body.light-mode .code-container {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .code-content {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+            padding: 0.4rem 0.6rem;
+            background: rgba(15, 23, 42, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        body.light-mode .code-header {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .code-header:hover {
+            color: var(--text);
+            background: rgba(15, 23, 42, 0.15);
+            border-color: var(--primary);
+        }
+
+        body.light-mode .code-header:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .code-toggle-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+            font-size: 0.7rem;
+        }
+
+        .code-section.collapsed .code-toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .code-toggle-text {
+            font-size: 0.65rem;
+            opacity: 0.6;
+            margin-left: 0.25rem;
+        }
+
         #loading-warning {
             position: fixed;
             top: 20px;
@@ -279,8 +440,35 @@
                 <button id="mode-toggle" class="mode-toggle-btn" style="flex: 0 0 auto; min-width: 60px;">🌙</button>
             </div>
 
-            <div id="main-preview" class="main-preview">
-                <!-- SVG injected here -->
+            <div class="preview-wrapper">
+                <div id="main-preview" class="main-preview">
+                    <!-- SVG injected here -->
+                </div>
+
+                <div class="actions-row">
+                    <div class="action-buttons">
+                        <button id="copy-code-btn" class="action-btn">
+                            Copy Code
+                        </button>
+                        <button id="download-svg-btn" class="action-btn">
+                            Download SVG
+                        </button>
+                    </div>
+
+                    <div class="code-section" id="code-section">
+                        <div class="code-header" id="code-toggle">
+                            <span>
+                                <span class="code-toggle-icon">▼</span>
+                                SVG Code
+                                <span class="code-toggle-text">(click to collapse)</span>
+                            </span>
+                            <span id="copy-status" style="color: var(--primary); display: none; font-size: 0.65rem;">✓ Copied</span>
+                        </div>
+                        <div class="code-container">
+                            <pre id="svg-code" class="code-content"><!-- SVG code will be displayed here --></pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -301,8 +489,30 @@
         const mainPreview = document.getElementById('main-preview');
         const variationsGrid = document.getElementById('variations-grid');
         const warning = document.getElementById('loading-warning');
+        const svgCode = document.getElementById('svg-code');
+        const copyCodeBtn = document.getElementById('copy-code-btn');
+        const downloadSvgBtn = document.getElementById('download-svg-btn');
+        const copyStatus = document.getElementById('copy-status');
+        const codeSection = document.getElementById('code-section');
+        const codeToggle = document.getElementById('code-toggle');
+
+        let currentSvg = '';
 
         if (window.location.protocol === 'file:') warning.style.display = 'block';
+
+        // Toggle code section
+        codeToggle.onclick = () => {
+            codeSection.classList.toggle('collapsed');
+            const toggleText = codeToggle.querySelector('.code-toggle-text');
+            const toggleIcon = codeToggle.querySelector('.code-toggle-icon');
+            if (codeSection.classList.contains('collapsed')) {
+                toggleText.textContent = '(click to expand)';
+                toggleIcon.textContent = '▶';
+            } else {
+                toggleText.textContent = '(click to collapse)';
+                toggleIcon.textContent = '▼';
+            }
+        };
 
         let isDarkMode = true;
         modeToggle.onclick = () => {
@@ -318,6 +528,10 @@
             // Update main preview
             const mainSvg = generateIdenticon(val, { size: 240, strokeWidth: 2.5, theme });
             mainPreview.innerHTML = mainSvg;
+            currentSvg = mainSvg;
+
+            // Update SVG code display
+            svgCode.textContent = mainSvg;
 
             // Pop effect
             mainPreview.style.transform = 'scale(0.95)';
@@ -342,6 +556,52 @@
                 variationsGrid.appendChild(card);
             });
         }
+
+        // Copy SVG code to clipboard
+        copyCodeBtn.onclick = async () => {
+            try {
+                await navigator.clipboard.writeText(currentSvg);
+                copyStatus.style.display = 'inline';
+                setTimeout(() => {
+                    copyStatus.style.display = 'none';
+                }, 2000);
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = currentSvg;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    copyStatus.style.display = 'inline';
+                    setTimeout(() => {
+                        copyStatus.style.display = 'none';
+                    }, 2000);
+                } catch (e) {
+                    alert('Failed to copy');
+                }
+                document.body.removeChild(textArea);
+            }
+        };
+
+        // Download SVG file
+        downloadSvgBtn.onclick = () => {
+            const val = mainInput.value || 'structicon';
+            const theme = themeSelect.value;
+            const filename = `${val.replace(/[^a-z0-9]/gi, '_')}_${theme}.svg`;
+
+            const blob = new Blob([currentSvg], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
 
         mainInput.addEventListener('input', update);
         themeSelect.addEventListener('change', update);
